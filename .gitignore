@@ -1,0 +1,33 @@
+﻿# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencias y archivos generados
+**/vendor/
+**/node_modules/
+**/dist/
+**/build/
+*.log
+
+# Archivos del editor
+.vscode/
+.idea/
+
+# Archivos temporales de Windows
+Thumbs.db
+.DS_Store
+
+# Respaldos de bases de datos con información real
+database/respaldo_*.sql
+
+# Sesiones temporales y copias de respaldo de codigo
+backend/storage/sessions/
+*.bak
+
+# Scripts auxiliares pendientes de revision de seguridad
+backend/probar_conexion.php
+backend/scripts/create_user.php

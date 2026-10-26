@@ -1,0 +1,3 @@
+# Bloquea el acceso web a TODO el backend (.env, vendor, src, logs...).
+# La carpeta public/ lo vuelve a permitir en su propio .htaccess.
+Require all denied
