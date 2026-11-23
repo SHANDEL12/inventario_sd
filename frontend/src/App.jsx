@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 
-const API_URL = 'http://localhost/inventario-sd/backend/public/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const valoresIniciales = {
   numero_serie: '',
@@ -42,7 +42,7 @@ function App() {
     setCargandoProductos(true);
 
     try {
-      const url = new URL(`${API_URL}/productos`);
+      const url = new URL(`${API_URL}/productos`, window.location.origin);
       if (termino.trim()) url.searchParams.set('q', termino.trim());
 
       const respuesta = await fetch(url, {
@@ -533,14 +533,15 @@ function App() {
                       <th>CLASIFICACIÓN</th>
                       <th>CANTIDAD</th>
                       <th>ESTADO</th>
+                      <th>CÓDIGO QR</th>
                     </tr>
                   </thead>
                   <tbody>
                     {cargandoProductos ? (
-                      <tr><td colSpan="6" className="empty-cell">Cargando productos...</td></tr>
+                      <tr><td colSpan="7" className="empty-cell">Cargando productos...</td></tr>
                     ) : productos.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="empty-cell">
+                        <td colSpan="7" className="empty-cell">
                           <div className="empty-state-icon">▦</div>
                           <strong>No hay productos para mostrar</strong>
                           <span>{busqueda ? 'Prueba con otro término de búsqueda.' : 'Registra tu primer equipo para comenzar.'}</span>
@@ -554,6 +555,19 @@ function App() {
                         <td><span className={`status-pill status-${String(producto.clasificacion).toLowerCase()}`}>{producto.clasificacion}</span></td>
                         <td><span className="quantity-value">{producto.cantidad}</span></td>
                         <td><span className={`equipment-state ${producto.estado_equipo === 'Nuevo' ? 'state-new' : 'state-used'}`}>{producto.estado_equipo}</span></td>
+                        <td>
+                            <button
+                                 className="secondary-button"
+                                 type="button"
+                                 onClick={() => {
+                                     const contenido = `INVENTARIO SD | Serie: ${producto.numero_serie}`;
+                                     const url = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(contenido)}`;
+                                     window.open(url, '_blank', 'noopener,noreferrer');
+                                      }}
+                                             >
+                                               Generar QR
+                                                 </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
