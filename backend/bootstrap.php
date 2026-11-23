@@ -36,7 +36,7 @@ set_error_handler(static function (int $severity, string $message, string $file,
 });
 
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER'])->notEmpty();
 $dotenv->required('DB_PASS'); // puede estar vacío, pero debe existir
 
